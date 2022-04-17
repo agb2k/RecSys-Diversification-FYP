@@ -17,7 +17,6 @@ ratings = pd.read_csv('../Datasets/BX-CSV-Dump/BX-Book-Ratings.csv', delimiter="
 
 # Additional data cleaning
 ratings["ISBN"] = ratings["ISBN"].apply(lambda x: x.strip().strip("\'").strip("\\").strip('\"').strip("\#").strip("("))
-# ratings["Rating"] = ratings['Rating'].str.replace("\"", "").astype(int)
 ratings.reset_index(drop=True, inplace=True)
 
 # Find users who have rated more than 1000 books
@@ -48,7 +47,6 @@ bookCatalog = books.index.unique().tolist()
 
 # Checks if ISBN from ratings are valid books
 ratings = ratings[ratings['ISBN'].isin(bookCatalog)]
-
 
 # Removes ratings of 0
 ratings.drop(ratings.index[ratings['Rating'] == 0], inplace=True)
