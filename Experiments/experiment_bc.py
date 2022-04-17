@@ -77,133 +77,133 @@ print("Train-test split complete!")
 # Recommender System Algorithm, SVD
 if not trainBool:
     print("Loading model...")
-    svdAlgo = pickle.load(open('../Book-Crossing Model/svd_algo.sav', 'rb'))
+    svdAlgo = pickle.load(open('../Models/Book-Crossing Models/svd_algo.sav', 'rb'))
     print("Model loaded!")
 else:
     print("Training model...")
     svdAlgo = SVD()
     svdAlgo.fit(trainSet)
-    pickle.dump(svdAlgo, open('../Book-Crossing Model/svd_algo.sav', 'wb'))
+    pickle.dump(svdAlgo, open('../Models/Book-Crossing Models/svd_algo.sav', 'wb'))
     print("Model trained!")
 
 # Recommender System Algorithm, KNN
 if not trainBool:
     print("Loading model...")
-    knnAlgo = pickle.load(open('../Book-Crossing Model/knn_algo.sav', 'rb'))
+    knnAlgo = pickle.load(open('../Models/Book-Crossing Models/knn_algo.sav', 'rb'))
     print("Model loaded!")
 else:
     print("Training model...")
     knnAlgo = KNNBasic()
     knnAlgo.fit(trainSet)
-    pickle.dump(knnAlgo, open('../Book-Crossing Model/knn_algo.sav', 'wb'))
+    pickle.dump(knnAlgo, open('../Models/Book-Crossing Models/knn_algo.sav', 'wb'))
     print("Model trained!")
 
 # Recommender System Algorithm, KNN with Means
 if not trainBool:
     print("Loading model...")
-    knnMeansAlgo = pickle.load(open('../Book-Crossing Model/knn_means_algo.sav', 'rb'))
+    knnMeansAlgo = pickle.load(open('../Models/Book-Crossing Models/knn_means_algo.sav', 'rb'))
     print("Model loaded!")
 else:
     print("Training model...")
     knnMeansAlgo = KNNWithMeans()
     knnMeansAlgo.fit(trainSet)
-    pickle.dump(knnMeansAlgo, open('../Book-Crossing Model/knn_means_algo.sav', 'wb'))
+    pickle.dump(knnMeansAlgo, open('../Models/Book-Crossing Models/knn_means_algo.sav', 'wb'))
     print("Model trained!")
 
 # Recommender System Algorithm, KNN with Z-Score
 if not trainBool:
     print("Loading model...")
-    knnZAlgo = pickle.load(open('../Book-Crossing Model/knn_Z_algo.sav', 'rb'))
+    knnZAlgo = pickle.load(open('../Models/Book-Crossing Models/knn_Z_algo.sav', 'rb'))
     print("Model loaded!")
 else:
     print("Training model...")
     knnZAlgo = KNNWithZScore()
     knnZAlgo.fit(trainSet)
-    pickle.dump(knnZAlgo, open('../Book-Crossing Model/knn_Z_algo.sav', 'wb'))
+    pickle.dump(knnZAlgo, open('../Models/Book-Crossing Models/knn_Z_algo.sav', 'wb'))
     print("Model trained!")
 
 # Recommender System Algorithm, KNN Baseline
 if not trainBool:
     print("Loading model...")
-    knnBaselineAlgo = pickle.load(open('../Book-Crossing Model/knn_baseline_algo.sav', 'rb'))
+    knnBaselineAlgo = pickle.load(open('../Models/Book-Crossing Models/knn_baseline_algo.sav', 'rb'))
     print("Model loaded!")
 else:
     print("Training model...")
     knnBaselineAlgo = KNNBaseline()
     knnBaselineAlgo.fit(trainSet)
-    pickle.dump(knnBaselineAlgo, open('../Book-Crossing Model/knn_baseline_algo.sav', 'wb'))
+    pickle.dump(knnBaselineAlgo, open('../Models/Book-Crossing Models/knn_baseline_algo.sav', 'wb'))
     print("Model trained!")
 
 # Recommender System Algorithm, SVD plus plus
 if not trainBool:
     print("Loading model...")
-    svdPPAlgo = pickle.load(open('../Book-Crossing Model/svd_pp_algo.sav', 'rb'))
+    svdPPAlgo = pickle.load(open('../Models/Book-Crossing Models/svd_pp_algo.sav', 'rb'))
     print("Model loaded!")
 else:
     print("Training model...")
     svdPPAlgo = SVDpp()
     svdPPAlgo.fit(trainSet)
-    pickle.dump(svdPPAlgo, open('../Book-Crossing Model/svd_pp_algo.sav', 'wb'))
+    pickle.dump(svdPPAlgo, open('../Models/Book-Crossing Models/svd_pp_algo.sav', 'wb'))
     print("Model trained!")
 
 # Recommender System Algorithm, Non-Negative Matrix Factorization
 if not trainBool:
     print("Loading model...")
-    nmfAlgo = pickle.load(open('../Book-Crossing Model/nmf_algo.sav', 'rb'))
+    nmfAlgo = pickle.load(open('../Models/Book-Crossing Models/nmf_algo.sav', 'rb'))
     print("Model loaded!")
 else:
     print("Training model...")
     nmfAlgo = NMF()
     nmfAlgo.fit(trainSet)
-    pickle.dump(nmfAlgo, open('../Book-Crossing Model/nmf_algo.sav', 'wb'))
+    pickle.dump(nmfAlgo, open('../Models/Book-Crossing Models/nmf_algo.sav', 'wb'))
     print("Model trained!")
 
 # Recommender System Algorithm, Slope One
 if not trainBool:
     print("Loading model...")
-    slopeAlgo = pickle.load(open('../Book-Crossing Model/slope_algo.sav', 'rb'))
+    slopeAlgo = pickle.load(open('../Models/Book-Crossing Models/slope_algo.sav', 'rb'))
     print("Model loaded!")
 else:
     print("Training model...")
     slopeAlgo = SlopeOne()
     slopeAlgo.fit(trainSet)
-    pickle.dump(slopeAlgo, open('../Book-Crossing Model/slope_algo.sav', 'wb'))
+    pickle.dump(slopeAlgo, open('../Models/Book-Crossing Models/slope_algo.sav', 'wb'))
     print("Model trained!")
 
 # Recommender System Algorithm, Co-clustering
 if not trainBool:
     print("Loading model...")
-    ccAlgo = pickle.load(open('../Book-Crossing Model/cc_algo', 'rb'))
+    ccAlgo = pickle.load(open('../Models/Book-Crossing Models/cc_algo', 'rb'))
     print("Model loaded!")
 else:
     print("Training model...")
     ccAlgo = CoClustering()
     ccAlgo.fit(trainSet)
-    pickle.dump(ccAlgo, open('../Book-Crossing Model/cc_algo', 'wb'))
+    pickle.dump(ccAlgo, open('../Models/Book-Crossing Models/cc_algo', 'wb'))
     print("Model trained!")
 
 # Recommender System Algorithm, Normal Predictor (Random)
 if not trainBool:
     print("Loading model...")
-    normalAlgo = pickle.load(open('../Book-Crossing Model/normal_algo', 'rb'))
+    normalAlgo = pickle.load(open('../Models/Book-Crossing Models/normal_algo', 'rb'))
     print("Model loaded!")
 else:
     print("Training model...")
     normalAlgo = NormalPredictor()
     normalAlgo.fit(trainSet)
-    pickle.dump(normalAlgo, open('../Book-Crossing Model/normal_algo', 'wb'))
+    pickle.dump(normalAlgo, open('../Models/Book-Crossing Models/normal_algo', 'wb'))
     print("Model trained!")
 
 # Recommender System Algorithm, Baseline
 if not trainBool:
     print("Loading model...")
-    baselineAlgo = pickle.load(open('../Book-Crossing Model/baseline_algo.sav', 'rb'))
+    baselineAlgo = pickle.load(open('../Models/Book-Crossing Models/baseline_algo.sav', 'rb'))
     print("Model loaded!")
 else:
     print("Training model...")
     baselineAlgo = BaselineOnly()
     baselineAlgo.fit(trainSet)
-    pickle.dump(baselineAlgo, open('../Book-Crossing Model/baseline_algo.sav', 'wb'))
+    pickle.dump(baselineAlgo, open('../Models/Book-Crossing Models/baseline_algo.sav', 'wb'))
     print("Model trained!")
 
 algoList = [svdAlgo, knnAlgo, knnMeansAlgo, knnZAlgo, knnBaselineAlgo, svdPPAlgo, nmfAlgo, slopeAlgo, ccAlgo,

@@ -228,8 +228,8 @@ cython_debug/
 #recmetrics
 recmetrics/
 
-/Book-Crossing Model/
-/ML-20M Models/
+/Models/
 /Datasets/
 
 /.idea/
+
