@@ -1,7 +1,7 @@
 from surprise import AlgoBase, PredictionImpossible
 
 
-class DiversityAlgorithm(AlgoBase):
+class KFN(AlgoBase):
 
     def __init__(self, sim_options={}, bsl_options={}):
 
@@ -27,15 +27,23 @@ class DiversityAlgorithm(AlgoBase):
         # users that have also rated item i.
         neighbors = [(v, self.sim[u, v]) for (v, r) in self.trainset.ir[i]]
         # Sort these neighbors by similarity
-        neighbors = sorted(neighbors, key=lambda x: x[1], reverse=True)
+        # neighbors = sorted(neighbors, key=lambda x: x[1], reverse=True)
         neighbors_reverse = sorted(neighbors, key=lambda x: x[1], reverse=False)
 
-        print('The 3 nearest neighbors of user', str(u), 'are:')
-        for v, sim_uv in neighbors[:3]:
-            print('user {0:} with sim {1:1.2f}'.format(v, sim_uv))
+        # print('The 3 nearest neighbors of user', str(u), 'are:')
+        # for v, sim_uv in neighbors[:3]:
+        #     print('user {0:} with sim {1:1.2f}'.format(v, sim_uv))
 
         print('The 3 furthest neighbors of user', str(u), 'are:')
         for v, sim_uv in neighbors_reverse[:3]:
             print('user {0:} with sim {1:1.2f}'.format(v, sim_uv))
 
-        # ... Aaaaand return the baseline estimate anyway ;)
+        sum_sim = sum_ratings = 0
+        for v, sim_uv in neighbors_reverse:
+            if sim_uv:
+                sum_sim += sim_uv
+                sum_ratings += sim_uv * v
+
+        est = sum_ratings/sum_sim
+        return est
+# Read KNNBasic
