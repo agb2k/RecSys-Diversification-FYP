@@ -1,6 +1,6 @@
 from surprise import AlgoBase, PredictionImpossible
 
-
+# Initial implementation of KFN, replaced by KFN2
 class KFN(AlgoBase):
 
     def __init__(self, sim_options={}, bsl_options={}):
@@ -26,13 +26,9 @@ class KFN(AlgoBase):
         # Compute similarities between u and v, where v describes all other
         # users that have also rated item i.
         neighbors = [(v, self.sim[u, v]) for (v, r) in self.trainset.ir[i]]
-        # Sort these neighbors by similarity
-        # neighbors = sorted(neighbors, key=lambda x: x[1], reverse=True)
-        neighbors_reverse = sorted(neighbors, key=lambda x: x[1], reverse=False)
 
-        # print('The 3 nearest neighbors of user', str(u), 'are:')
-        # for v, sim_uv in neighbors[:3]:
-        #     print('user {0:} with sim {1:1.2f}'.format(v, sim_uv))
+        # Sort these neighbors by similarity
+        neighbors_reverse = sorted(neighbors, key=lambda x: x[1], reverse=False)
 
         print('The 3 furthest neighbors of user', str(u), 'are:')
         for v, sim_uv in neighbors_reverse[:3]:
@@ -44,6 +40,5 @@ class KFN(AlgoBase):
                 sum_sim += sim_uv
                 sum_ratings += sim_uv * v
 
-        est = sum_ratings/sum_sim
+        est = sum_ratings / sum_sim
         return est
-# Read KNNBasic

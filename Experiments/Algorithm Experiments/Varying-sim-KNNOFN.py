@@ -1,10 +1,7 @@
-import matplotlib.pyplot as plt
 import pandas as pd
-from surprise import SVD, SVDpp, KNNBasic, KNNWithMeans, KNNWithZScore, NMF, SlopeOne, Dataset, Reader, \
-    NormalPredictor, BaselineOnly, CoClustering, KNNBaseline
-from surprise.model_selection import train_test_split, GridSearchCV
 import recmetrics
-import pickle
+from surprise import Dataset, Reader
+from surprise.model_selection import train_test_split
 
 # Display maximum columns
 from Algorithms.KNNOFN import KNNOFN
@@ -12,7 +9,7 @@ from Algorithms.KNNOFN import KNNOFN
 pd.set_option("display.max_columns", None)
 
 # Read CSV
-ratings = pd.read_csv('../Datasets/ml-20m/ratings.csv')
+ratings = pd.read_csv('../../Datasets/ml-20m/ratings.csv')
 ratings.reset_index(drop=True, inplace=True)
 
 # Find users who have rated more than 1000 movies
@@ -24,7 +21,7 @@ ratings = ratings.query('userId in @users')
 rated_movies = ratings["movieId"].tolist()
 
 # Find corresponding rated books
-movies = pd.read_csv('../Datasets/ml-20m/movies.csv')
+movies = pd.read_csv('../../Datasets/ml-20m/movies.csv')
 movies = movies.query('movieId in @rated_movies')
 movies.set_index("movieId", inplace=True, drop=True)
 
@@ -53,10 +50,39 @@ data = Dataset.load_from_df(ratings[['userId', 'movieId', 'rating']], reader)
 trainSet, testSet = train_test_split(data, test_size=0.2, random_state=22092000)
 
 algoList = []
+algoNameList = []
 
-knnon2Algo = KNNOFN()
+# knnon1Algo = KNNOFN()
+# knnon1Algo.fit(trainSet)
+# algoList.append(knnon1Algo)
+# algoNameList.append('MSD')
+
+sim_cosine = {'name': 'cosine'}
+knnon2Algo = KNNOFN(sim_options=sim_cosine)
 knnon2Algo.fit(trainSet)
 algoList.append(knnon2Algo)
+algoNameList.append('Cosine')
+
+sim_pearson = {'name': 'pearson'}
+knnon3Algo = KNNOFN(sim_options=sim_pearson)
+knnon3Algo.fit(trainSet)
+algoList.append(knnon3Algo)
+algoNameList.append('Pearson')
+
+sim_pearson_bl = {'name': 'pearson_baseline'}
+knnon4Algo = KNNOFN(sim_options=sim_pearson_bl)
+knnon4Algo.fit(trainSet)
+algoList.append(knnon4Algo)
+algoNameList.append('Pearson Baseline')
+
+mseList = []
+rmseList = []
+noveltyList = []
+personList = []
+intraSimList = []
+predictionCoverageList = []
+catalogCoverageList = []
+
 for algo in algoList:
     test = algo.test(testSet)
     test = pd.DataFrame(test)
@@ -120,4 +146,44 @@ for algo in algoList:
     print(f"Intra-list Similarity : RMSE:{intraSim / rmse}")
     print(f"Prediction Coverage : RMSE: {predCov / rmse}")
     print(f"Catalog Coverage : RMSE: {catCov / rmse}")
+
     print(f"\n<------------------------------------------------------------------>\n")
+
+    mseList.append(mse)
+    rmseList.append(rmse)
+    noveltyList.append(novelty)
+    personList.append(personalization)
+    intraSimList.append(intraSim)
+    predictionCoverageList.append(predCov)
+    catalogCoverageList.append(catCov)
+
+data = {
+    'Algorithm': algoNameList,
+    # Lower is better
+    'MSE': mseList,
+    # Lower is better
+    'RMSE': rmseList,
+    # Higher is better
+    'Novelty': noveltyList,
+    # Higher is better
+    'Personalization': personList,
+    # Lower is better
+    'Intra-list Similarity': intraSimList,
+    # Higher is better
+    'Prediction Coverage': predictionCoverageList,
+    # Higher is better
+    'Catalog Coverage': catalogCoverageList
+}
+
+df = pd.DataFrame(data)
+df['Novelty Ratio'] = df['Novelty'] / df['RMSE']
+df['Personalization Ratio'] = df['Personalization'] / df['RMSE']
+df['Intra-list Dissimilarity Ratio'] = (1 - df['Intra-list Similarity']) / df['RMSE']
+df['Prediction Coverage Ratio'] = df['Prediction Coverage'] / df['RMSE']
+df['Catalog Coverage Ratio'] = df['Catalog Coverage'] / df['RMSE']
+df.set_index("k", inplace=True, drop=True)
+
+print("Dataset: ml-20m\n")
+print(df)
+
+df.to_csv('../../Output/Algorithm-Experiments-Output/Comparison-sim.csv')

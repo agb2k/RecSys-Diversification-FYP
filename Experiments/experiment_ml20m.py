@@ -7,6 +7,10 @@ from Algorithms.KFN2 import KFN2
 import recmetrics
 import pickle
 
+from Algorithms.KNNOFN import KNNOFN
+from Algorithms.KNNOFNFN import KNNOFNFN
+from Algorithms.KNNONN import KNNONN
+
 trainBool = False
 
 # Display maximum columns
@@ -61,6 +65,7 @@ trainSet, testSet = train_test_split(data, test_size=0.2, random_state=22092000)
 print("Train-test split complete!")
 
 algoList = []
+algoNameList = []
 
 # Recommender System Algorithm, SVD
 if not trainBool:
@@ -75,6 +80,7 @@ else:
     # dump.dump(svdAlgo, open('../Models/ML-20M Models/svd_algo.sav', 'wb'))
     print("Model trained!")
 algoList.append(svdAlgo)
+algoNameList.append("SVD")
 
 # Recommender System Algorithm, KNN
 if not trainBool:
@@ -88,6 +94,7 @@ else:
     pickle.dump(knnAlgo, open('../Models/ML-20M Models/knn_algo.sav', 'wb'))
     print("Model trained!")
 algoList.append(knnAlgo)
+algoNameList.append("KNN")
 
 # Recommender System Algorithm, KNN with Means
 if not trainBool:
@@ -101,6 +108,7 @@ else:
     pickle.dump(knnMeansAlgo, open('../Models/ML-20M Models/knn_means_algo.sav', 'wb'))
     print("Model trained!")
 algoList.append(knnMeansAlgo)
+algoNameList.append("KNN with Means")
 
 # Recommender System Algorithm, KNN with Z-Score
 if not trainBool:
@@ -114,6 +122,7 @@ else:
     pickle.dump(knnZAlgo, open('../Models/ML-20M Models/knn_Z_algo.sav', 'wb'))
     print("Model trained!")
 algoList.append(knnZAlgo)
+algoNameList.append("KNN with Z-Score")
 
 # Recommender System Algorithm, KNN Baseline
 if not trainBool:
@@ -127,6 +136,7 @@ else:
     pickle.dump(knnBaselineAlgo, open('../Models/ML-20M Models/knn_baseline_algo.sav', 'wb'))
     print("Model trained!")
 algoList.append(knnBaselineAlgo)
+algoNameList.append("KNN Baseline")
 
 # Recommender System Algorithm, SVD plus plus
 if not trainBool:
@@ -140,6 +150,7 @@ else:
     pickle.dump(svdPPAlgo, open('../Models/ML-20M Models/svd_pp_algo.sav', 'wb'))
     print("Model trained!")
 algoList.append(svdPPAlgo)
+algoNameList.append("SVDPP")
 
 # Recommender System Algorithm, Non-Negative Matrix Factorization
 if not trainBool:
@@ -153,18 +164,7 @@ else:
     pickle.dump(nmfAlgo, open('../Models/ML-20M Models/nmf_algo.sav', 'wb'))
     print("Model trained!")
 algoList.append(nmfAlgo)
-
-# # Recommender System Algorithm, Slope One
-# if not trainBool:
-#     print("Loading model...")
-#     slopeAlgo = pickle.load(open('../Models/ML-20M Models/slope_algo.sav', 'rb'))
-#     print("Model loaded!")
-# else:
-#     print("Training model...")
-#     slopeAlgo = SlopeOne()
-#     slopeAlgo.fit(trainSet)
-#     pickle.dump(slopeAlgo, open('../Models/ML-20M Models/slope_algo.sav', 'wb'))
-#     print("Model trained!")
+algoNameList.append("NMF")
 
 # Recommender System Algorithm, Co-clustering
 if not trainBool:
@@ -178,6 +178,7 @@ else:
     pickle.dump(ccAlgo, open('../Models/ML-20M Models/cc_algo', 'wb'))
     print("Model trained!")
 algoList.append(ccAlgo)
+algoNameList.append("Co-Clustering")
 
 # Recommender System Algorithm, Normal Predictor (Random)
 if not trainBool:
@@ -191,6 +192,7 @@ else:
     pickle.dump(normalAlgo, open('../Models/ML-20M Models/normal_algo', 'wb'))
     print("Model trained!")
 algoList.append(normalAlgo)
+algoNameList.append("Normal Predictor")
 
 # Recommender System Algorithm, Baseline
 if not trainBool:
@@ -204,6 +206,7 @@ else:
     pickle.dump(baselineAlgo, open('../Models/ML-20M Models/baseline_algo.sav', 'wb'))
     print("Model trained!")
 algoList.append(baselineAlgo)
+algoNameList.append("Baseline Predictor")
 
 # Recommender System Algorithm, K-Furthest Neighbours(V2)
 if not trainBool:
@@ -217,6 +220,50 @@ else:
     pickle.dump(kfnAlgo, open('../Models/ML-20M Models/KFN.sav', 'wb'))
     print("Model trained!")
 algoList.append(kfnAlgo)
+algoNameList.append("KFN")
+
+# Recommender System Algorithm, K-Nearest Neighbours of Furthest Neighbour
+if not trainBool:
+    print("Loading model...")
+    knnofnAlgo = pickle.load(open('../Models/ML-20M Models/KNNOFN.sav', 'rb'))
+    print("Model loaded!")
+else:
+    print("Training model...")
+    knnofnAlgo = KNNOFN()
+    knnofnAlgo.fit(trainSet)
+    pickle.dump(knnofnAlgo, open('../Models/ML-20M Models/KNNOFN.sav', 'wb'))
+    print("Model trained!")
+algoList.append(knnofnAlgo)
+algoNameList.append("KNNOFN")
+
+# Recommender System Algorithm, K-Nearest Neighbours of Furthest Neighbours Furthest Neighbours
+if not trainBool:
+    print("Loading model...")
+    knnofnfnAlgo = pickle.load(open('../Models/ML-20M Models/KNNOFNFN.sav', 'rb'))
+    print("Model loaded!")
+else:
+    print("Training model...")
+    knnofnfnAlgo = KNNOFNFN()
+    knnofnfnAlgo.fit(trainSet)
+    pickle.dump(knnofnfnAlgo, open('../Models/ML-20M Models/KNNOFNFN.sav', 'wb'))
+    print("Model trained!")
+algoList.append(knnofnfnAlgo)
+algoNameList.append("KNNOFNFN")
+
+# Recommender System Algorithm, K-Nearest Neighbours of Nearest Neighbours
+if not trainBool:
+    print("Loading model...")
+    knnonnAlgo = pickle.load(open('../Models/ML-20M Models/KNNONN.sav', 'rb'))
+    print("Model loaded!")
+else:
+    print("Training model...")
+    knnonnAlgo = KNNONN()
+    knnonnAlgo.fit(trainSet)
+    pickle.dump(knnonnAlgo, open('../Models/ML-20M Models/KNNONN.sav', 'wb'))
+    print("Model trained!")
+algoList.append(knnonnAlgo)
+algoNameList.append("KNNONN")
+
 
 test = None
 mseList = []
@@ -302,6 +349,7 @@ for algo in algoList:
     intraSimList.append(intraSim)
     predictionCoverageList.append(predCov)
     catalogCoverageList.append(catCov)
+
     print(algo)
     print(mse)
     print(rmse)
@@ -311,7 +359,7 @@ for algo in algoList:
     print(predCov)
     print(catCov)
 
-# # <----------------------------- SVD-KNN Hybrid Algorithm ---------------------------------------------->
+# <----------------------------- SVD-KNN Hybrid Algorithm ---------------------------------------------->
 test1 = svdAlgo.test(testSet)
 test1 = pd.DataFrame(test1)
 test1.drop("details", inplace=True, axis=1)
@@ -396,6 +444,8 @@ intraSimList.append(intraSim)
 predictionCoverageList.append(predCov)
 catalogCoverageList.append(catCov)
 
+algoNameList.append("SVD-KNN Hybrid")
+
 # <-------------------- SVD-Normal Hybrid Algorithm ------------------------------->
 
 test4 = normalAlgo.test(testSet)
@@ -472,6 +522,85 @@ intraSimList.append(intraSim)
 predictionCoverageList.append(predCov)
 catalogCoverageList.append(catCov)
 
+algoNameList.append("SVD-Normal Hybrid")
+
+# <------------------------------------------------------------------------------>
+
+# <-------------------- KNN-Normal Hybrid Algorithm ------------------------------->
+
+test6 = knnAlgo.test(testSet)
+test6 = pd.DataFrame(test6)
+test6.drop("details", inplace=True, axis=1)
+test6.columns = ['userId', 'movieId', 'actual', 'KNN predictions']
+
+result4 = pd.concat([test6, test4], axis=1, join='inner')
+col = result4.loc[:, "KNN predictions": "Standardized"]
+result4['predictions'] = result4["KNN predictions"] + result4["Standardized"]
+print(result4.head())
+result4.drop(["KNN predictions", "Standardized"], inplace=True, axis=1)
+
+print("Calculating MSE...")
+mse = recmetrics.mse(result4.actual, result4.predictions)
+print(mse)
+print("Calculated MSE!")
+
+print("Calculating RMSE...")
+rmse = recmetrics.rmse(result4.actual, result4.predictions)
+print(rmse)
+print("Calculated RMSE!")
+
+# Create model (matrix of predicted values)
+print("Creating model...")
+algoModel = result4.pivot_table(index='userId', columns='movieId', values='predictions').fillna(0)
+print("Created model!")
+
+result4 = result4.copy().groupby('userId', as_index=False)['movieId'].agg({'actual': (lambda x: list(set(x)))})
+result4 = result4.set_index("userId")
+
+# Make recommendations for all members in the test data
+print("Making recommendations for each member...")
+recs = [] = []
+for user in result4.index:
+    predictions = get_users_predictions(user, 10, algoModel)
+    recs.append(predictions)
+print("Recommendations made for each member!")
+
+result4['predictions'] = recs
+
+nov = ratings.movieId.value_counts()
+pop = dict(nov)
+
+# Calculate novelty and personalization
+print("Calculating Novelty...")
+novelty, mselfinfo_list = recmetrics.novelty(recs, pop, len(users), 10)
+print("Calculated Novelty!")
+
+print("Calculating Personalization...")
+personalization = recmetrics.personalization(recs)
+print("Calculated Personalization!")
+
+print("Calculating Intra-List Similarity...")
+intraSim = recmetrics.intra_list_similarity(recs, movies)
+print("Calculated Intra-List Similarity!")
+
+print("Calculating Prediction Coverage...")
+predCov = recmetrics.prediction_coverage(recs, catalog)
+print("Calculated Intra-List Similarity!")
+
+print("Calculating Coverage...")
+catCov = recmetrics.catalog_coverage(recs, catalog, 100)
+print("Calculated Intra-List Similarity!")
+
+mseList.append(mse)
+rmseList.append(rmse)
+noveltyList.append(novelty)
+personList.append(personalization)
+intraSimList.append(intraSim)
+predictionCoverageList.append(predCov)
+catalogCoverageList.append(catCov)
+
+algoNameList.append("KNN-Normal Hybrid")
+
 # <------------------------------------------------------------------------------>
 
 # <-------------------- SVD-KFN Hybrid Algorithm ------------------------------->
@@ -481,7 +610,7 @@ test5 = pd.DataFrame(test5)
 test5.drop("details", inplace=True, axis=1)
 test5.columns = ['userId', 'movieId', 'actual', 'KFN predictions']
 test5.drop(['userId', 'movieId', 'actual'], inplace=True, axis=1)
-test5["KFN Standardized"] = ((test5['KFN predictions'] / 5) - 0.5)
+test5["KFN Standardized"] = ((test5['KFN predictions'] / 2.5) - 1)
 print(test5.head())
 
 result3 = pd.concat([test1, test5], axis=1, join='inner')
@@ -550,43 +679,50 @@ intraSimList.append(intraSim)
 predictionCoverageList.append(predCov)
 catalogCoverageList.append(catCov)
 
+algoNameList.append("SVD-KFN Hybrid")
+
 # <------------------------------------------------------------------------------>
 
-# <-------------------- KNN-Normal Hybrid Algorithm ------------------------------->
+# <-------------------- SVD-KNNOFN Hybrid Algorithm ------------------------------->
 
-result4 = pd.concat([test2, test4], axis=1, join='inner')
-col = result4.loc[:, "KNN predictions": "Standardized"]
-result4['predictions'] = result4["KNN predictions"] + result4["Standardized"]
-print(result4.head())
-result4.drop(["KNN predictions", "Standardized"], inplace=True, axis=1)
+test7 = knnofnAlgo.test(testSet)
+test7 = pd.DataFrame(test7)
+test7.drop("details", inplace=True, axis=1)
+test7.columns = ['userId', 'movieId', 'actual', 'KNNOFN predictions']
+test7.drop(['userId', 'movieId', 'actual'], inplace=True, axis=1)
+print(test7.head())
+
+# mean
+result5 = pd.concat([test1, test7], axis=1, join='inner')
+col = result5.loc[:, "SVD predictions": "KNNOFN predictions"]
+result5['predictions'] = col.mean(axis=1)
+result5.drop(["SVD predictions", "KNNOFN predictions"], inplace=True, axis=1)
 
 print("Calculating MSE...")
-mse = recmetrics.mse(result4.actual, result4.predictions)
-print(mse)
+mse = recmetrics.mse(result5.actual, result5.predictions)
 print("Calculated MSE!")
 
 print("Calculating RMSE...")
-rmse = recmetrics.rmse(result4.actual, result4.predictions)
-print(rmse)
+rmse = recmetrics.rmse(result5.actual, result5.predictions)
 print("Calculated RMSE!")
 
 # Create model (matrix of predicted values)
 print("Creating model...")
-algoModel = result4.pivot_table(index='userId', columns='movieId', values='predictions').fillna(0)
+knnofnSvdModel = result5.pivot_table(index='userId', columns='movieId', values='predictions').fillna(0)
 print("Created model!")
 
-result4 = result4.copy().groupby('userId', as_index=False)['movieId'].agg({'actual': (lambda x: list(set(x)))})
-result4 = result4.set_index("userId")
+result5 = result5.copy().groupby('userId', as_index=False)['movieId'].agg({'actual': (lambda x: list(set(x)))})
+result5 = result5.set_index("userId")
 
 # Make recommendations for all members in the test data
 print("Making recommendations for each member...")
 recs = [] = []
-for user in result4.index:
-    predictions = get_users_predictions(user, 10, algoModel)
+for user in result5.index:
+    predictions = get_users_predictions(user, 10, knnofnSvdModel)
     recs.append(predictions)
 print("Recommendations made for each member!")
 
-result4['predictions'] = recs
+result5['predictions'] = recs
 
 nov = ratings.movieId.value_counts()
 pop = dict(nov)
@@ -620,12 +756,166 @@ intraSimList.append(intraSim)
 predictionCoverageList.append(predCov)
 catalogCoverageList.append(catCov)
 
+algoNameList.append("SVD-KNNOFN Hybrid")
+
+# <------------------------------------------------------------------------------>
+
+# <-------------------- SVD-KNNOFN Hybrid Algorithm V2------------------------------->
+
+test7 = knnofnAlgo.test(testSet)
+test7 = pd.DataFrame(test7)
+test7.drop("details", inplace=True, axis=1)
+test7.columns = ['userId', 'movieId', 'actual', 'KNNOFN predictions']
+test7.drop(['userId', 'movieId', 'actual'], inplace=True, axis=1)
+print(test7.head())
+
+# mean
+result5 = pd.concat([test1, test7], axis=1, join='inner')
+col = result5.loc[:, "SVD predictions": "KNNOFN predictions"]
+result5['predictions'] = 0.25 * result5["SVD predictions"] + 0.75 * result5["KNNOFN predictions"]
+result5.drop(["SVD predictions", "KNNOFN predictions"], inplace=True, axis=1)
+
+print("Calculating MSE...")
+mse = recmetrics.mse(result5.actual, result5.predictions)
+print("Calculated MSE!")
+
+print("Calculating RMSE...")
+rmse = recmetrics.rmse(result5.actual, result5.predictions)
+print("Calculated RMSE!")
+
+# Create model (matrix of predicted values)
+print("Creating model...")
+knnofnSvdModel = result5.pivot_table(index='userId', columns='movieId', values='predictions').fillna(0)
+print("Created model!")
+
+result5 = result5.copy().groupby('userId', as_index=False)['movieId'].agg({'actual': (lambda x: list(set(x)))})
+result5 = result5.set_index("userId")
+
+# Make recommendations for all members in the test data
+print("Making recommendations for each member...")
+recs = [] = []
+for user in result5.index:
+    predictions = get_users_predictions(user, 10, knnofnSvdModel)
+    recs.append(predictions)
+print("Recommendations made for each member!")
+
+result5['predictions'] = recs
+
+nov = ratings.movieId.value_counts()
+pop = dict(nov)
+
+# Calculate novelty and personalization
+print("Calculating Novelty...")
+novelty, mselfinfo_list = recmetrics.novelty(recs, pop, len(users), 10)
+print("Calculated Novelty!")
+
+print("Calculating Personalization...")
+personalization = recmetrics.personalization(recs)
+print("Calculated Personalization!")
+
+print("Calculating Intra-List Similarity...")
+intraSim = recmetrics.intra_list_similarity(recs, movies)
+print("Calculated Intra-List Similarity!")
+
+print("Calculating Prediction Coverage...")
+predCov = recmetrics.prediction_coverage(recs, catalog)
+print("Calculated Intra-List Similarity!")
+
+print("Calculating Coverage...")
+catCov = recmetrics.catalog_coverage(recs, catalog, 100)
+print("Calculated Intra-List Similarity!")
+
+mseList.append(mse)
+rmseList.append(rmse)
+noveltyList.append(novelty)
+personList.append(personalization)
+intraSimList.append(intraSim)
+predictionCoverageList.append(predCov)
+catalogCoverageList.append(catCov)
+
+algoNameList.append("SVD-KNNOFN Hybrid V2")
+
+# <------------------------------------------------------------------------------>
+
+# <-------------------- SVD-KNNOFN Hybrid Algorithm V3------------------------------->
+
+test7 = knnofnAlgo.test(testSet)
+test7 = pd.DataFrame(test7)
+test7.drop("details", inplace=True, axis=1)
+test7.columns = ['userId', 'movieId', 'actual', 'KNNOFN predictions']
+test7.drop(['userId', 'movieId', 'actual'], inplace=True, axis=1)
+print(test7.head())
+
+# mean
+result5 = pd.concat([test1, test7], axis=1, join='inner')
+col = result5.loc[:, "SVD predictions": "KNNOFN predictions"]
+result5['predictions'] = 0.2 * result5["SVD predictions"] + 0.8 * result5["KNNOFN predictions"]
+result5.drop(["SVD predictions", "KNNOFN predictions"], inplace=True, axis=1)
+
+print("Calculating MSE...")
+mse = recmetrics.mse(result5.actual, result5.predictions)
+print("Calculated MSE!")
+
+print("Calculating RMSE...")
+rmse = recmetrics.rmse(result5.actual, result5.predictions)
+print("Calculated RMSE!")
+
+# Create model (matrix of predicted values)
+print("Creating model...")
+knnofnSvdModel = result5.pivot_table(index='userId', columns='movieId', values='predictions').fillna(0)
+print("Created model!")
+
+result5 = result5.copy().groupby('userId', as_index=False)['movieId'].agg({'actual': (lambda x: list(set(x)))})
+result5 = result5.set_index("userId")
+
+# Make recommendations for all members in the test data
+print("Making recommendations for each member...")
+recs = [] = []
+for user in result5.index:
+    predictions = get_users_predictions(user, 10, knnofnSvdModel)
+    recs.append(predictions)
+print("Recommendations made for each member!")
+
+result5['predictions'] = recs
+
+nov = ratings.movieId.value_counts()
+pop = dict(nov)
+
+# Calculate novelty and personalization
+print("Calculating Novelty...")
+novelty, mselfinfo_list = recmetrics.novelty(recs, pop, len(users), 10)
+print("Calculated Novelty!")
+
+print("Calculating Personalization...")
+personalization = recmetrics.personalization(recs)
+print("Calculated Personalization!")
+
+print("Calculating Intra-List Similarity...")
+intraSim = recmetrics.intra_list_similarity(recs, movies)
+print("Calculated Intra-List Similarity!")
+
+print("Calculating Prediction Coverage...")
+predCov = recmetrics.prediction_coverage(recs, catalog)
+print("Calculated Intra-List Similarity!")
+
+print("Calculating Coverage...")
+catCov = recmetrics.catalog_coverage(recs, catalog, 100)
+print("Calculated Intra-List Similarity!")
+
+mseList.append(mse)
+rmseList.append(rmse)
+noveltyList.append(novelty)
+personList.append(personalization)
+intraSimList.append(intraSim)
+predictionCoverageList.append(predCov)
+catalogCoverageList.append(catCov)
+
+algoNameList.append("SVD-KNNOFN Hybrid V3")
+
 # <------------------------------------------------------------------------------>
 
 data = {
-    'Algorithm': ["SVD", "KNN", "KNN with Means", "KNN with Z-Score", "KNN Baseline", "SVD Plus Plus",
-                  "NMF", "Co-clustering", "Normal Predictor", "Baseline", "KFN", "SVD-KNN Hybrid",
-                  "SVD-Normal Hybrid", "SVD-KFN Hybrid", "KNN-Normal Hybrid"],
+    'Algorithm': algoNameList,
     # Lower is better
     'MSE': mseList,
     # Lower is better
@@ -648,4 +938,4 @@ df.set_index("Algorithm", inplace=True, drop=True)
 print("Dataset: ml-20m\n")
 print(df)
 
-df.to_csv('../Output/ML-20M/stats-ml20_sample3.csv')
+df.to_csv('../Output/ML-20M/stats-ml20_sample7.csv')
