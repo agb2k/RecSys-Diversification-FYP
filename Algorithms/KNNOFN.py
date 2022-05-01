@@ -6,7 +6,7 @@ from surprise.prediction_algorithms.knns import SymmetricAlgo
 # K-Nearest Neighbours of Furthest Neighbours
 class KNNOFN(SymmetricAlgo):
 
-    def __init__(self, k=50, k2=20, min_k=1, sim_options={}, verbose=True, **kwargs):
+    def __init__(self, k=5, k2=5, min_k=1, sim_options={}, verbose=True, **kwargs):
 
         SymmetricAlgo.__init__(self, sim_options=sim_options, verbose=verbose,
                                **kwargs)

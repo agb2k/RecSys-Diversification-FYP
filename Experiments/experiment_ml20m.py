@@ -1,17 +1,19 @@
-import matplotlib.pyplot as plt
-import pandas as pd
-from surprise import SVD, SVDpp, KNNBasic, KNNWithMeans, KNNWithZScore, NMF, SlopeOne, Dataset, Reader, \
-    NormalPredictor, BaselineOnly, CoClustering, KNNBaseline, dump
-from surprise.model_selection import train_test_split, GridSearchCV
-from Algorithms.KFN2 import KFN2
-import recmetrics
 import pickle
 
+import matplotlib.pyplot as plt
+import pandas as pd
+import recmetrics
+from surprise import SVD, SVDpp, KNNBasic, KNNWithMeans, KNNWithZScore, NMF, Dataset, Reader, \
+    NormalPredictor, BaselineOnly, CoClustering, KNNBaseline
+from surprise.model_selection import train_test_split
+
+from Algorithms.KFN2 import KFN2
 from Algorithms.KNNOFN import KNNOFN
 from Algorithms.KNNOFNFN import KNNOFNFN
 from Algorithms.KNNONN import KNNONN
 
 trainBool = False
+trainNew = True
 
 # Display maximum columns
 pd.set_option("display.max_columns", None)
@@ -209,61 +211,60 @@ algoList.append(baselineAlgo)
 algoNameList.append("Baseline Predictor")
 
 # Recommender System Algorithm, K-Furthest Neighbours(V2)
-if not trainBool:
+if not trainNew:
     print("Loading model...")
-    kfnAlgo = pickle.load(open('../Models/ML-20M Models/KFN.sav', 'rb'))
+    kfnAlgo = pickle.load(open('../Models/ML-20M Models/KFN_new.sav', 'rb'))
     print("Model loaded!")
 else:
     print("Training model...")
     kfnAlgo = KFN2()
     kfnAlgo.fit(trainSet)
-    pickle.dump(kfnAlgo, open('../Models/ML-20M Models/KFN.sav', 'wb'))
+    pickle.dump(kfnAlgo, open('../Models/ML-20M Models/KFN_new.sav', 'wb'))
     print("Model trained!")
 algoList.append(kfnAlgo)
 algoNameList.append("KFN")
 
 # Recommender System Algorithm, K-Nearest Neighbours of Furthest Neighbour
-if not trainBool:
+if not trainNew:
     print("Loading model...")
-    knnofnAlgo = pickle.load(open('../Models/ML-20M Models/KNNOFN.sav', 'rb'))
+    knnofnAlgo = pickle.load(open('../Models/ML-20M Models/KNNOFN_new.sav', 'rb'))
     print("Model loaded!")
 else:
     print("Training model...")
     knnofnAlgo = KNNOFN()
     knnofnAlgo.fit(trainSet)
-    pickle.dump(knnofnAlgo, open('../Models/ML-20M Models/KNNOFN.sav', 'wb'))
+    pickle.dump(knnofnAlgo, open('../Models/ML-20M Models/KNNOFN_new.sav', 'wb'))
     print("Model trained!")
 algoList.append(knnofnAlgo)
 algoNameList.append("KNNOFN")
 
 # Recommender System Algorithm, K-Nearest Neighbours of Furthest Neighbours Furthest Neighbours
-if not trainBool:
+if not trainNew:
     print("Loading model...")
-    knnofnfnAlgo = pickle.load(open('../Models/ML-20M Models/KNNOFNFN.sav', 'rb'))
+    knnofnfnAlgo = pickle.load(open('../Models/ML-20M Models/KNNOFNFN_new.sav', 'rb'))
     print("Model loaded!")
 else:
     print("Training model...")
     knnofnfnAlgo = KNNOFNFN()
     knnofnfnAlgo.fit(trainSet)
-    pickle.dump(knnofnfnAlgo, open('../Models/ML-20M Models/KNNOFNFN.sav', 'wb'))
+    pickle.dump(knnofnfnAlgo, open('../Models/ML-20M Models/KNNOFNFN_new.sav', 'wb'))
     print("Model trained!")
 algoList.append(knnofnfnAlgo)
 algoNameList.append("KNNOFNFN")
 
-# Recommender System Algorithm, K-Nearest Neighbours of Nearest Neighbours
-if not trainBool:
-    print("Loading model...")
-    knnonnAlgo = pickle.load(open('../Models/ML-20M Models/KNNONN.sav', 'rb'))
-    print("Model loaded!")
-else:
-    print("Training model...")
-    knnonnAlgo = KNNONN()
-    knnonnAlgo.fit(trainSet)
-    pickle.dump(knnonnAlgo, open('../Models/ML-20M Models/KNNONN.sav', 'wb'))
-    print("Model trained!")
-algoList.append(knnonnAlgo)
-algoNameList.append("KNNONN")
-
+# # Recommender System Algorithm, K-Nearest Neighbours of Nearest Neighbours
+# if not trainBool:
+#     print("Loading model...")
+#     knnonnAlgo = pickle.load(open('../Models/ML-20M Models/KNNONN.sav', 'rb'))
+#     print("Model loaded!")
+# else:
+#     print("Training model...")
+#     knnonnAlgo = KNNONN()
+#     knnonnAlgo.fit(trainSet)
+#     pickle.dump(knnonnAlgo, open('../Models/ML-20M Models/KNNONN.sav', 'wb'))
+#     print("Model trained!")
+# algoList.append(knnonnAlgo)
+# algoNameList.append("KNNONN")
 
 test = None
 mseList = []
@@ -937,5 +938,6 @@ df.set_index("Algorithm", inplace=True, drop=True)
 
 print("Dataset: ml-20m\n")
 print(df)
+print(f"Number of Algorithms: {len(df.index)}")
 
-df.to_csv('../Output/ML-20M/stats-ml20_sample7.csv')
+df.to_csv('../Output/ML-20M/stats-ml20_sample8.csv')

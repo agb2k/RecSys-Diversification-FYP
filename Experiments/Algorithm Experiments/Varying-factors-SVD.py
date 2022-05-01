@@ -4,7 +4,7 @@ from surprise import Dataset, Reader
 from surprise.model_selection import train_test_split
 
 # Display maximum columns
-from Algorithms.KNNOFN import KNNOFN
+from surprise import SVD
 
 pd.set_option("display.max_columns", None)
 
@@ -50,45 +50,38 @@ data = Dataset.load_from_df(ratings[['userId', 'movieId', 'rating']], reader)
 trainSet, testSet = train_test_split(data, test_size=0.2, random_state=22092000)
 
 algoList = []
+algoNameList = []
 
-# knnon3Algo = KNNOFN(k=1, k2=1)
-# knnon3Algo.fit(trainSet)
-# algoList.append(knnon3Algo)
-#
-# knnon1Algo = KNNOFN(k=3, k2=3)
-# knnon1Algo.fit(trainSet)
-# algoList.append(knnon1Algo)
-#
-knnon2Algo = KNNOFN()
-knnon2Algo.fit(trainSet)
-algoList.append(knnon2Algo)
+# svdAlgo = SVD(n_factors=100000)
+# svdAlgo.fit(trainSet)
+# algoList.append(svdAlgo)
+# algoNameList.append('SVD 100000 LF')
 
-# knnon0Algo = KNNOFN(k=100, k2=100)
-# knnon0Algo.fit(trainSet)
-# algoList.append(knnon0Algo)
-#
-# knnon1Algo = KNNOFN(k=100, k2=5)
-# knnon1Algo.fit(trainSet)
-# algoList.append(knnon1Algo)
-#
-# knnon2Algo = KNNOFN()
-# knnon2Algo.fit(trainSet)
-# algoList.append(knnon2Algo)
-#
-# knnon3Algo = KNNOFN(k=50, k2=50)
-# knnon3Algo.fit(trainSet)
-# algoList.append(knnon3Algo)
-#
-# knnon4Algo = KNNOFN(k=5, k2=50)
-# knnon4Algo.fit(trainSet)
-# algoList.append(knnon4Algo)
-#
-# knnon5Algo = KNNOFN(k=5, k2=100)
-# knnon5Algo.fit(trainSet)
-# algoList.append(knnon5Algo)
+# svdAlgo1 = SVD(n_factors=2000)
+# svdAlgo1.fit(trainSet)
+# algoList.append(svdAlgo1)
+# algoNameList.append('SVD 10000 LF')
 
-kList = []
-k2List = []
+svdAlgo2 = SVD(n_factors=1000)
+svdAlgo2.fit(trainSet)
+algoList.append(svdAlgo2)
+algoNameList.append('SVD 1000 LF')
+
+svdAlgo3 = SVD(n_factors=200)
+svdAlgo3.fit(trainSet)
+algoList.append(svdAlgo3)
+algoNameList.append('SVD 200 LF')
+
+svdAlgo4 = SVD()
+svdAlgo4.fit(trainSet)
+algoList.append(svdAlgo4)
+algoNameList.append('SVD 100 LF')
+
+svdAlgo5 = SVD(n_factors=50)
+svdAlgo5.fit(trainSet)
+algoList.append(svdAlgo5)
+algoNameList.append('SVD 50 LF')
+
 mseList = []
 rmseList = []
 noveltyList = []
@@ -146,7 +139,6 @@ for algo in algoList:
     catCov = recmetrics.catalog_coverage(recs, catalog, 100)
 
     print(f"\n\n<------------------------------------------------------------------>\n")
-    # print(f"Algorithm Configuration: k={algo.k};k2={algo.k2}")
     print(f"MSE: {mse}")
     print(f"RMSE: {rmse}")
     print(f"Novelty: {novelty}")
@@ -166,6 +158,7 @@ for algo in algoList:
     catalogCoverageList.append(catCov)
 
 data = {
+    'Algorithm': algoNameList,
     # Lower is better
     'MSE': mseList,
     # Lower is better
@@ -185,6 +178,8 @@ data = {
 df = pd.DataFrame(data)
 
 print("Dataset: ml-20m\n")
+print(f"\n\n<------------------------------------------------------------------>\n")
 print(df)
+print(f"\n<------------------------------------------------------------------>\n")
 
-df.to_csv('../../Output/Algorithm-Experiments-Output/Comparison-k-4.csv')
+df.to_csv('../../Output/Algorithm-Experiments-Output/Comparison-svd-lfactors3.csv')
