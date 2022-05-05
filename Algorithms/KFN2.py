@@ -2,7 +2,7 @@ import heapq
 from surprise import PredictionImpossible
 from surprise.prediction_algorithms.knns import SymmetricAlgo
 
-
+# K-Furthest Neighbours Implementation
 class KFN2(SymmetricAlgo):
 
     def __init__(self, k=10, min_k=1, sim_options={}, verbose=True, **kwargs):

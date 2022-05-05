@@ -6,14 +6,12 @@ import recmetrics
 from surprise import SVD, SVDpp, KNNBasic, KNNWithMeans, KNNWithZScore, NMF, Dataset, Reader, \
     NormalPredictor, BaselineOnly, CoClustering, KNNBaseline
 from surprise.model_selection import train_test_split
-
 from Algorithms.KFN2 import KFN2
 from Algorithms.KNNOFN import KNNOFN
 from Algorithms.KNNOFNFN import KNNOFNFN
-from Algorithms.KNNONN import KNNONN
 
+# Used to change whether you want to train or not
 trainBool = False
-trainNew = True
 
 # Display maximum columns
 pd.set_option("display.max_columns", None)
@@ -30,7 +28,7 @@ users = users[users > 1000].index.tolist()
 ratings = ratings.query('userId in @users')
 rated_movies = ratings["movieId"].tolist()
 
-# Find corresponding rated books
+# Find corresponding rated movies
 movies = pd.read_csv('../Datasets/ml-20m/movies.csv')
 movies = movies.query('movieId in @rated_movies')
 movies.set_index("movieId", inplace=True, drop=True)
@@ -79,7 +77,6 @@ else:
     svdAlgo = SVD()
     svdAlgo.fit(trainSet)
     pickle.dump(svdAlgo, open('../Models/ML-20M Models/svd_algo.sav', 'wb'))
-    # dump.dump(svdAlgo, open('../Models/ML-20M Models/svd_algo.sav', 'wb'))
     print("Model trained!")
 algoList.append(svdAlgo)
 algoNameList.append("SVD")
@@ -211,7 +208,7 @@ algoList.append(baselineAlgo)
 algoNameList.append("Baseline Predictor")
 
 # Recommender System Algorithm, K-Furthest Neighbours(V2)
-if not trainNew:
+if not trainBool:
     print("Loading model...")
     kfnAlgo = pickle.load(open('../Models/ML-20M Models/KFN_new.sav', 'rb'))
     print("Model loaded!")
@@ -225,7 +222,7 @@ algoList.append(kfnAlgo)
 algoNameList.append("KFN")
 
 # Recommender System Algorithm, K-Nearest Neighbours of Furthest Neighbour
-if not trainNew:
+if not trainBool:
     print("Loading model...")
     knnofnAlgo = pickle.load(open('../Models/ML-20M Models/KNNOFN_new.sav', 'rb'))
     print("Model loaded!")
@@ -239,7 +236,7 @@ algoList.append(knnofnAlgo)
 algoNameList.append("KNNOFN")
 
 # Recommender System Algorithm, K-Nearest Neighbours of Furthest Neighbours Furthest Neighbours
-if not trainNew:
+if not trainBool:
     print("Loading model...")
     knnofnfnAlgo = pickle.load(open('../Models/ML-20M Models/KNNOFNFN_new.sav', 'rb'))
     print("Model loaded!")
@@ -251,20 +248,6 @@ else:
     print("Model trained!")
 algoList.append(knnofnfnAlgo)
 algoNameList.append("KNNOFNFN")
-
-# # Recommender System Algorithm, K-Nearest Neighbours of Nearest Neighbours
-# if not trainBool:
-#     print("Loading model...")
-#     knnonnAlgo = pickle.load(open('../Models/ML-20M Models/KNNONN.sav', 'rb'))
-#     print("Model loaded!")
-# else:
-#     print("Training model...")
-#     knnonnAlgo = KNNONN()
-#     knnonnAlgo.fit(trainSet)
-#     pickle.dump(knnonnAlgo, open('../Models/ML-20M Models/KNNONN.sav', 'wb'))
-#     print("Model trained!")
-# algoList.append(knnonnAlgo)
-# algoNameList.append("KNNONN")
 
 test = None
 mseList = []

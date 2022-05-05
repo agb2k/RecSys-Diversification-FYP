@@ -1,3 +1,4 @@
+# Main experiments folder for book-crossing dataset
 import matplotlib.pyplot as plt
 import pandas as pd
 from surprise import SVD, SVDpp, KNNBasic, KNNWithMeans, KNNWithZScore, NMF, Dataset, Reader, \
@@ -11,8 +12,8 @@ from Algorithms.KNNOFN import KNNOFN
 from Algorithms.KNNOFNFN import KNNOFNFN
 from Algorithms.KNNONN import KNNONN
 
-trainBool = True
-trainNew = True
+trainBool = False
+trainNew = False
 
 # Display maximum columns
 pd.set_option("display.max_columns", None)
@@ -25,7 +26,7 @@ ratings = pd.read_csv('../Datasets/BX-CSV-Dump/BX-Book-Ratings.csv', delimiter="
 ratings["ISBN"] = ratings["ISBN"].apply(lambda x: x.strip().strip("\'").strip("\\").strip('\"').strip("\#").strip("("))
 ratings.reset_index(drop=True, inplace=True)
 
-# Find users who have rated more than 1000 books
+# Find users who have rated more than 100 books
 users = ratings["ID"].value_counts()
 users = users[users > 100].index.tolist()
 
